@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  ga-idp-gateway:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - GA_IDP_API_KEY=${GA_IDP_API_KEY:-demo-key-change-me}
+      - GA_IDP_REQUIRE_AUTH=${GA_IDP_REQUIRE_AUTH:-true}
+      - GA_IDP_CONFIDENCE_THRESHOLD=${GA_IDP_CONFIDENCE_THRESHOLD:-0.95}
+      - GA_IDP_DB_PATH=/data/ga_idp.db
+    volumes:
+      - ga-idp-data:/data
+
+volumes:
+  ga-idp-data:

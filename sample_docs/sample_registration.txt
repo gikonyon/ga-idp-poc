@@ -1,0 +1,9 @@
+GA INSURANCE LIMITED — CUSTOMER REGISTRATION FORM (sample/demo data)
+
+Name: John Otieno Kamau
+ID: 29876543
+Policy: General Insurance / Motor Comprehensive
+Phone: 0711223344
+
+Branch: Nairobi CBD
+Date: 2026-08-20

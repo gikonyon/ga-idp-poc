@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GA-IDP Gateway — Review Dashboard</title>
+<style>
+  body { font-family: -apple-system, Arial, sans-serif; background: #f4f6f8; margin: 0; padding: 24px; }
+  h1 { color: #14314b; }
+  .subtitle { color: #5a6b7b; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid #e5e9ec; font-size: 14px; }
+  th { background: #14314b; color: #fff; }
+  .reasons { color: #b3261e; font-size: 12px; }
+  .btn { padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; font-size: 13px; color: #fff; }
+  .approve { background: #1a7f37; margin-right: 6px; }
+  .reject { background: #b3261e; }
+  .empty { padding: 40px; text-align: center; color: #8a97a3; }
+</style>
+</head>
+<body>
+  <h1>GA-IDP Gateway — Human-in-the-Loop Review</h1>
+  <p class="subtitle">Documents that fell below the {{ threshold }} confidence threshold or had missing fields. Review before they can be pushed to a core system.</p>
+
+  {% if reviews %}
+  <table>
+    <tr><th>Queue ID</th><th>ID Number</th><th>Client Name</th><th>Confidence</th><th>Reasons</th><th>Received</th><th>Action</th></tr>
+    {% for r in reviews %}
+    <tr>
+      <td>{{ r.id }}</td>
+      <td>{{ r.payload.id_number }}</td>
+      <td>{{ r.payload.client_name }}</td>
+      <td>{{ r.payload.confidence_score }}</td>
+      <td class="reasons">{{ r.reasons|join(', ') }}</td>
+      <td>{{ r.created_at }}</td>
+      <td>
+        <form style="display:inline" method="post" action="/review/{{ r.id }}/approve"><button class="btn approve">Approve</button></form>
+        <form style="display:inline" method="post" action="/review/{{ r.id }}/reject"><button class="btn reject">Reject</button></form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <div class="empty">No documents pending review. Everything is flowing straight through to core systems.</div>
+  {% endif %}
+</body>
+</html>
